@@ -67,33 +67,33 @@ const FacilitiesPage = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-black text-white flex items-center justify-center">
+      <div className="min-h-screen bg-black text-white flex items-center justify-center px-4">
         <div className="text-center">
-          <div className="text-6xl mb-4 animate-bounce">⚽</div>
-          <p className="text-xl text-gray-400">Loading facilities...</p>
+          <div className="text-5xl sm:text-6xl mb-4 animate-bounce">⚽</div>
+          <p className="text-lg sm:text-xl text-gray-400">Loading facilities...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-black text-white py-20 px-4">
+    <div className="min-h-screen bg-black text-white py-12 sm:py-16 md:py-20 px-4 sm:px-6">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-16">
-          <div className="inline-block px-6 py-2 border border-orange-500/50 rounded-full mb-6 text-orange-500 text-sm tracking-widest uppercase">
+        <div className="text-center mb-12 sm:mb-16">
+          <div className="inline-block px-4 sm:px-6 py-2 border border-orange-500/50 rounded-full mb-4 sm:mb-6 text-orange-500 text-xs sm:text-sm tracking-widest uppercase">
             Choose Your Sport
           </div>
-          <h1 className="text-5xl md:text-7xl font-black mb-4">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black mb-3 sm:mb-4 px-4">
             Our <span className="bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent">Facilities</span>
           </h1>
-          <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+          <p className="text-base sm:text-lg md:text-xl text-gray-400 max-w-2xl mx-auto px-4">
             Choose your favorite sport and book your slot
           </p>
         </div>
 
         {/* Facilities Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
           {facilities.map((facility) => (
             <div
               key={facility._id}
@@ -106,23 +106,23 @@ const FacilitiesPage = () => {
               <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-orange-500 to-pink-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></div>
 
               {/* Icon Area */}
-              <div className="h-48 bg-gradient-to-br from-orange-500/20 to-pink-500/20 flex items-center justify-center relative overflow-hidden">
+              <div className="h-40 sm:h-48 bg-gradient-to-br from-orange-500/20 to-pink-500/20 flex items-center justify-center relative overflow-hidden">
                 <div className="absolute inset-0 bg-black/40"></div>
-                <div className="text-8xl relative z-10 transform group-hover:scale-110 transition-transform duration-500">
+                <div className="text-6xl sm:text-7xl md:text-8xl relative z-10 transform group-hover:scale-110 transition-transform duration-500">
                   {getIcon(facility.type)}
                 </div>
               </div>
 
               {/* Content */}
-              <div className="p-8 relative">
-                <h3 className="text-2xl font-black mb-3 text-white">{facility.name}</h3>
-                <p className="text-gray-400 text-sm mb-6 leading-relaxed">
+              <div className="p-6 sm:p-8 relative">
+                <h3 className="text-xl sm:text-2xl font-black mb-2 sm:mb-3 text-white">{facility.name}</h3>
+                <p className="text-gray-400 text-sm mb-4 sm:mb-6 leading-relaxed">
                   {facility.description}
                 </p>
 
                 {/* Details */}
-                <div className="space-y-3 mb-6">
-                  <div className="flex items-center gap-2 text-sm">
+                <div className="space-y-2 sm:space-y-3 mb-4 sm:mb-6">
+                  <div className="flex items-center gap-2 text-xs sm:text-sm">
                     <span className="text-gray-500">Capacity:</span>
                     <span className="text-white font-semibold">{facility.capacity} people</span>
                   </div>
@@ -131,35 +131,35 @@ const FacilitiesPage = () => {
                     <>
                       {facility.hourlyRate === facility.nightRate ? (
                         // Same price for day and night
-                        <div className="flex items-center gap-2 text-sm">
+                        <div className="flex items-center gap-2 text-xs sm:text-sm">
                           <span className="text-gray-500">Rate:</span>
-                          <span className="text-green-500 font-bold text-lg">₹{facility.hourlyRate}/hour</span>
+                          <span className="text-green-500 font-bold text-base sm:text-lg">₹{facility.hourlyRate}/hour</span>
                         </div>
                       ) : (
                         // Different prices for day and night
                         <>
-                          <div className="flex items-center gap-2 text-sm">
+                          <div className="flex items-center gap-2 text-xs sm:text-sm">
                             <span className="text-gray-500">Day Rate:</span>
-                            <span className="text-green-500 font-bold text-lg">₹{facility.hourlyRate}/hour</span>
+                            <span className="text-green-500 font-bold text-base sm:text-lg">₹{facility.hourlyRate}/hour</span>
                           </div>
-                          <div className="flex items-center gap-2 text-sm">
+                          <div className="flex items-center gap-2 text-xs sm:text-sm">
                             <span className="text-gray-500">Night Rate:</span>
-                            <span className="text-orange-500 font-bold text-lg">₹{facility.nightRate}/hour</span>
+                            <span className="text-orange-500 font-bold text-base sm:text-lg">₹{facility.nightRate}/hour</span>
                           </div>
                         </>
                       )}
                       <div className="text-xs text-gray-500 mt-2">
                         {facility.hourlyRate === facility.nightRate 
                           ? 'Available 6:00 AM - 12:00 AM'
-                          : 'Day: 6:00 AM - 6:00 PM | Night: 5:00 PM - 12:00 AM'
+                          : 'Day: 6 AM - 4 PM | Night: 5 PM - 12 AM'
                         }
                       </div>
                     </>
                   ) : (
-                    <div className="py-4">
-                      <div className="inline-flex items-center gap-2 px-4 py-2 bg-orange-500/10 border border-orange-500/30 rounded-full">
+                    <div className="py-3 sm:py-4">
+                      <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-orange-500/10 border border-orange-500/30 rounded-full">
                         <span className="text-orange-500 animate-pulse">⏰</span>
-                        <span className="text-orange-500 font-bold text-sm">Coming Soon</span>
+                        <span className="text-orange-500 font-bold text-xs sm:text-sm">Coming Soon</span>
                       </div>
                     </div>
                   )}
@@ -169,14 +169,14 @@ const FacilitiesPage = () => {
                 {facility.isActive ? (
                   <button
                     onClick={() => handleBookNow(facility._id)}
-                    className="w-full bg-gradient-to-r from-orange-500 to-pink-500 text-white py-4 rounded-lg font-bold text-lg hover:shadow-lg hover:shadow-orange-500/50 transition-all transform hover:scale-105"
+                    className="w-full bg-gradient-to-r from-orange-500 to-pink-500 text-white py-3 sm:py-4 rounded-lg font-bold text-base sm:text-lg hover:shadow-lg hover:shadow-orange-500/50 transition-all transform hover:scale-105 active:scale-95"
                   >
                     {isAuthenticated ? 'Book Now' : 'Login to Book'}
                   </button>
                 ) : (
                   <button
                     disabled
-                    className="w-full bg-gray-800 text-gray-500 py-4 rounded-lg font-bold text-lg cursor-not-allowed opacity-50"
+                    className="w-full bg-gray-800 text-gray-500 py-3 sm:py-4 rounded-lg font-bold text-base sm:text-lg cursor-not-allowed opacity-50"
                   >
                     Coming Soon
                   </button>
@@ -185,7 +185,7 @@ const FacilitiesPage = () => {
 
               {/* Coming Soon Badge */}
               {!facility.isActive && (
-                <div className="absolute top-4 right-4 bg-orange-500 text-white px-4 py-2 rounded-full text-xs font-bold shadow-lg">
+                <div className="absolute top-3 sm:top-4 right-3 sm:right-4 bg-orange-500 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs font-bold shadow-lg">
                   COMING SOON
                 </div>
               )}
