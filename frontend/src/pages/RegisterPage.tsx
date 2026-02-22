@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuthStore } from '../store/authStore';  // ← Add this import
+import { useAuthStore } from '../store/authStore';
 import toast from 'react-hot-toast';
 
 type Step = 'details' | 'verify-otp' | 'success';
@@ -15,7 +15,7 @@ const RegisterPage = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
-    contact: '', // Can be email or phone
+    contact: '',
     password: '',
     confirmPassword: '',
   });
@@ -23,18 +23,15 @@ const RegisterPage = () => {
 
   // Detect if input is email or phone
   const detectContactType = (value: string): 'email' | 'phone' => {
-    // Check if it looks like an email
     if (value.includes('@')) {
       return 'email';
     }
-    // Check if it looks like a phone number
     if (/^[+]?[\d\s-]+$/.test(value)) {
       return 'phone';
     }
-    return 'email'; // Default
+    return 'email';
   };
 
-  // Handle contact input change
   const handleContactChange = (value: string) => {
     setFormData({ ...formData, contact: value });
     setContactType(detectContactType(value));
@@ -44,7 +41,6 @@ const RegisterPage = () => {
   const handleSubmitDetails = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Validation
     if (!formData.name || !formData.contact || !formData.password) {
       toast.error('Please fill in all fields');
       return;
@@ -60,7 +56,6 @@ const RegisterPage = () => {
       return;
     }
 
-    // Detect contact type
     const type = detectContactType(formData.contact);
     
     setLoading(true);
@@ -125,7 +120,7 @@ const RegisterPage = () => {
 
       toast.success('OTP verified! Creating account...');
 
-      // Step 2: Register user - Only send the contact type that was used
+      // Step 2: Register user
       const registrationBody = contactType === 'email'
         ? {
             name: formData.name,
@@ -148,36 +143,36 @@ const RegisterPage = () => {
 
       const registerData = await registerResponse.json();
 
-      console.log('📝 Registration response:', registerData);
-      console.log('📝 Registration status:', registerResponse.status);
+      console.log('✅ Registration response:', registerData);
 
       if (registerData.success) {
-        toast.success('Account created successfully!');
-        
-        // Save token and user data
-        localStorage.setItem('token', registerData.token);
-        localStorage.setItem('user', JSON.stringify(registerData.user));
+        // ✅ CRITICAL FIX: Properly extract token and user from nested data object
+        const { token, user } = registerData.data;
 
-        // Update authStore
+        // Store in localStorage
+        localStorage.setItem('token', token);
+        localStorage.setItem('user', JSON.stringify(user));
+
+        // Update Zustand store
         useAuthStore.setState({
-          token: registerData.token,
-          user: registerData.user,
+          token: token,
+          user: user,
           isAuthenticated: true,
         });
 
+        toast.success(`Welcome ${user.name}! Account created successfully!`);
         setStep('success');
         
-        // Redirect to home after 2 seconds
+        // Redirect to facilities after 1.5 seconds
         setTimeout(() => {
-          navigate('/');
-        }, 2000);
+          navigate('/facilities');
+        }, 1500);
       } else {
         toast.error(registerData.message || 'Failed to create account');
-        console.error('❌ Registration error:', registrationBody);
-        console.error('❌ Error response:', registerData);
+        console.error('❌ Registration error:', registerData);
       }
     } catch (error) {
-      console.error('Error:', error);
+      console.error('❌ Error:', error);
       toast.error('An error occurred. Please try again.');
     } finally {
       setLoading(false);
@@ -235,8 +230,7 @@ const RegisterPage = () => {
             <div className={`flex-1 h-1 mt-5 mx-2 ${step === 'verify-otp' || step === 'success' ? 'bg-green-500' : 'bg-gray-700'}`}></div>
             
             <div className={`flex flex-col items-center ${step === 'verify-otp' ? 'text-orange-500' : step === 'success' ? 'text-green-500' : 'text-gray-500'}`}>
-              <div className={`w-10 h-10 rounded-full flex items-center justify-center mb-2 ${step === 'success' ? '✓' : '2'}`}
-              >
+              <div className={`w-10 h-10 rounded-full flex items-center justify-center mb-2 ${step === 'success' ? 'bg-green-500 text-white' : step === 'verify-otp' ? 'bg-orange-500 text-white' : 'bg-gray-700 text-gray-400'}`}>
                 {step === 'success' ? '✓' : '2'}
               </div>
               <span className="text-xs">Verify</span>
@@ -409,7 +403,7 @@ const RegisterPage = () => {
               <div className="text-6xl mb-4">🎉</div>
               <h1 className="text-3xl font-black mb-2 text-white">Success!</h1>
               <p className="text-gray-400 mb-4">Your account has been created</p>
-              <div className="animate-pulse text-orange-500">Redirecting to home...</div>
+              <div className="animate-pulse text-orange-500">Redirecting to facilities...</div>
             </div>
           )}
         </div>

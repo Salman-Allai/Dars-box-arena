@@ -6,6 +6,7 @@ console.log('🔍 EMAIL_USER:', process.env.EMAIL_USER);
 console.log('🔍 EMAIL_PASSWORD:', process.env.EMAIL_PASSWORD ? 'SET ✅' : 'NOT SET ❌');
 console.log('🔍 RAZORPAY_KEY_ID:', process.env.RAZORPAY_KEY_ID ? 'SET ✅' : 'NOT SET ❌');
 console.log('🔍 RAZORPAY_KEY_SECRET:', process.env.RAZORPAY_KEY_SECRET ? 'SET ✅' : 'NOT SET ❌');
+console.log('🔍 MONGODB_URI:', process.env.MONGODB_URI ? 'SET ✅' : 'NOT SET ❌');
 
 // NOW import everything else
 import express from 'express';
@@ -73,14 +74,22 @@ app.use((err, req, res, next) => {
 // ==================== DATABASE CONNECTION ====================
 const connectDB = async () => {
   try {
-    const conn = await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/dars-box-arena', {
-      // useNewUrlParser: true,     // REMOVE THIS
-      // useUnifiedTopology: true   // REMOVE THIS
-    });
+    // Connection options for MongoDB Atlas
+    const options = {
+      serverSelectionTimeoutMS: 10000, // 10 seconds timeout
+      socketTimeoutMS: 45000, // 45 seconds socket timeout
+      family: 4 // Use IPv4, skip trying IPv6
+    };
+
+    const conn = await mongoose.connect(
+      process.env.MONGODB_URI || 'mongodb://localhost:27017/dars-box-arena',
+      options
+    );
     
     console.log(`MongoDB Connected: ${conn.connection.host}`);
   } catch (error) {
-    console.error('MongoDB connection error:', error);
+    console.error('MongoDB connection error:', error.message);
+    console.error('Full error:', error);
     process.exit(1);
   }
 };
