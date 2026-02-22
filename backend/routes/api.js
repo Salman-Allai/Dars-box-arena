@@ -32,6 +32,16 @@ import {
 
 const router = express.Router();
 
+// ==================== HEALTH CHECK ====================
+router.get('/health', (req, res) => {
+  res.json({
+    success: true,
+    message: 'API is running',
+    timestamp: new Date().toISOString(),
+    environment: process.env.NODE_ENV || 'development'
+  });
+});
+
 // ==================== AUTH ROUTES ====================
 router.post('/auth/register', register);
 router.post('/auth/login', login);

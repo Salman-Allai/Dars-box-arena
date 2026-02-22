@@ -18,10 +18,33 @@ import razorpayRoutes from './routes/razorpay.js';
 const app = express();
 
 // ==================== MIDDLEWARE ====================
+// Production-ready CORS configuration
+const allowedOrigins = [
+  'http://localhost:5173',
+  'http://localhost:3000',
+  'https://dars-box-arena.vercel.app',
+  process.env.FRONTEND_URL
+].filter(Boolean);
+
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:5173',
-  credentials: true
+  origin: function (origin, callback) {
+    // Allow requests with no origin (mobile apps, Postman, etc.)
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      console.warn('⚠️ CORS blocked origin:', origin);
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
+
+// Handle preflight requests
+app.options('*', cors());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -38,7 +61,9 @@ app.get('/', (req, res) => {
     success: true,
     message: 'Dar\'s Box Arena Booking API',
     version: '1.0.0',
+    environment: process.env.NODE_ENV || 'development',
     endpoints: {
+      health: '/api/health',
       auth: '/api/auth',
       facilities: '/api/facilities',
       availability: '/api/availability',
@@ -56,7 +81,8 @@ app.use('/api/bookings', razorpayRoutes);
 app.use((req, res) => {
   res.status(404).json({
     success: false,
-    message: 'Route not found'
+    message: 'Route not found',
+    path: req.path
   });
 });
 
@@ -86,9 +112,9 @@ const connectDB = async () => {
       options
     );
     
-    console.log(`MongoDB Connected: ${conn.connection.host}`);
+    console.log(`✅ MongoDB Connected: ${conn.connection.host}`);
   } catch (error) {
-    console.error('MongoDB connection error:', error.message);
+    console.error('❌ MongoDB connection error:', error.message);
     console.error('Full error:', error);
     process.exit(1);
   }
@@ -100,14 +126,18 @@ const PORT = process.env.PORT || 5000;
 const startServer = async () => {
   await connectDB();
   
-  app.listen(PORT, () => {
+  app.listen(PORT, '0.0.0.0', () => {
     console.log(`
     ╔═══════════════════════════════════════════╗
     ║   Dar's Box Arena Booking System API     ║
     ║   Server running on port ${PORT}           ║
     ║   Environment: ${process.env.NODE_ENV || 'development'}              ║
     ║   Razorpay: ${process.env.RAZORPAY_KEY_ID ? 'ENABLED ✅' : 'NOT CONFIGURED ❌'}       ║
+    ║   CORS: ${allowedOrigins.length} origins allowed    ║
     ╚═══════════════════════════════════════════╝
+    
+    📝 Allowed Origins:
+    ${allowedOrigins.map(o => `   - ${o}`).join('\n')}
     `);
   });
 };
