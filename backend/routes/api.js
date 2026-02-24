@@ -8,6 +8,11 @@ import {
 } from '../controllers/authController.js';
 import { googleLogin } from '../controllers/googleAuthController.js';
 import {
+  sendPasswordResetOTP,
+  verifyPasswordResetOTP,
+  resetPassword
+} from '../controllers/passwordResetController.js';
+import {
   sendEmailOTP,
   verifyEmailOTP,
   sendPhoneOTP,
@@ -48,6 +53,11 @@ router.post('/auth/login', login);
 router.post('/auth/google', googleLogin);
 router.get('/auth/me', protect, getMe);
 router.put('/auth/profile', protect, updateProfile);
+
+// ==================== PASSWORD RESET ROUTES ====================
+router.post('/auth/forgot-password', sendPasswordResetOTP);
+router.post('/auth/verify-reset-otp', verifyPasswordResetOTP);
+router.post('/auth/reset-password', resetPassword);
 
 // ==================== OTP ROUTES ====================
 router.post('/otp/send-email', sendEmailOTP);

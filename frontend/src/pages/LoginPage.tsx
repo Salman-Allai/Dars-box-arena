@@ -69,7 +69,7 @@ const LoginPage = () => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
-        });
+      });
 
       const data = await response.json();
       console.log('Login response:', data);
@@ -177,6 +177,16 @@ const LoginPage = () => {
                     </svg>
                   )}
                 </button>
+              </div>
+              
+              {/* Forgot Password Link */}
+              <div className="flex items-center justify-end mt-2">
+                <Link 
+                  to="/forgot-password" 
+                  className="text-sm text-orange-500 hover:text-orange-400 transition"
+                >
+                  Forgot Password?
+                </Link>
               </div>
             </div>
 
