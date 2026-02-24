@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import type { Facility, TimeSlot } from '../types';
 import { formatCurrency, formatTime } from '../lib/utils';
+import { API_URL } from '../config/api';
 import toast from 'react-hot-toast';
 import { useAuthStore } from '../store/authStore';
 
@@ -72,9 +73,9 @@ declare global {
   }
 }
 
-// Create axios instance
+// Create axios instance with API_URL
 const api = axios.create({
-  baseURL: 'http://localhost:5000',
+  baseURL: API_URL,
   headers: {
     'Content-Type': 'application/json',
   },

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { useAuthStore } from '../store/authStore';
+import { API_URL } from '../config/api';
 import toast from 'react-hot-toast';
 import GoogleLoginButton from '../components/GoogleLogin';
 
@@ -64,11 +65,11 @@ const LoginPage = () => {
       console.log('Login request:', body);
 
       // Call backend login API
-      const response = await fetch('http://localhost:5000/api/auth/login', {
+      const response = await fetch(`${API_URL}/api/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
-      });
+        });
 
       const data = await response.json();
       console.log('Login response:', data);

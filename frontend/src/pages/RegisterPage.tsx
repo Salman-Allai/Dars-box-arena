@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../store/authStore';
+import { API_URL } from '../config/api';
 import toast from 'react-hot-toast';
 
 type Step = 'details' | 'verify-otp' | 'success';
@@ -65,7 +66,7 @@ const RegisterPage = () => {
         ? { email: formData.contact } 
         : { phone: formData.contact };
 
-      const response = await fetch(`http://localhost:5000${endpoint}`, {
+      const response = await fetch(`${API_URL}${endpoint}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
@@ -104,7 +105,7 @@ const RegisterPage = () => {
         ? { email: formData.contact, otp }
         : { phone: formData.contact, otp };
 
-      const verifyResponse = await fetch(`http://localhost:5000${endpoint}`, {
+      const verifyResponse = await fetch(`${API_URL}${endpoint}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
@@ -135,7 +136,7 @@ const RegisterPage = () => {
             password: formData.password,
           };
 
-      const registerResponse = await fetch('http://localhost:5000/api/auth/register', {
+      const registerResponse = await fetch(`${API_URL}/api/auth/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(registrationBody),
@@ -188,7 +189,7 @@ const RegisterPage = () => {
         ? { email: formData.contact }
         : { phone: formData.contact };
 
-      const response = await fetch(`http://localhost:5000${endpoint}`, {
+      const response = await fetch(`${API_URL}${endpoint}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),

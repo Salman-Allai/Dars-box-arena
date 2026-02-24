@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../store/authStore';
+import { API_URL } from '../config/api';
 import toast from 'react-hot-toast';
 
 interface Facility {
@@ -24,7 +25,7 @@ const FacilitiesPage = () => {
   useEffect(() => {
     const fetchFacilities = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/facilities');
+        const response = await fetch(`${API_URL}/api/facilities`);
         const data = await response.json();
         
         if (data.success) {

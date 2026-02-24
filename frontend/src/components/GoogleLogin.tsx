@@ -1,6 +1,7 @@
 import { GoogleOAuthProvider, useGoogleLogin } from '@react-oauth/google';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../store/authStore';
+import { API_URL } from '../config/api';
 import toast from 'react-hot-toast';
 
 const GoogleLoginButton = () => {
@@ -27,8 +28,8 @@ const GoogleLoginButton = () => {
       const userInfo = await userInfoResponse.json();
       console.log('🔵 Step 2: Got user info:', userInfo);
 
-      // Send to backend
-      const response = await fetch('http://localhost:5000/api/auth/google', {
+      // Send to backend - USE API_URL
+      const response = await fetch(`${API_URL}/api/auth/google`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
