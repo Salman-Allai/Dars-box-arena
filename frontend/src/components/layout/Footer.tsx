@@ -24,7 +24,7 @@ const Footer = () => {
               <div className="flex gap-4">
                 {/* Facebook */}
                 <a 
-                  href="https://facebook.com" 
+                  href="https://www.facebook.com/share/1Cc4PN7XcY/?mibextid=wwXIfr" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="w-10 h-10 bg-gray-900 rounded-lg flex items-center justify-center hover:bg-gradient-to-r hover:from-orange-500 hover:to-pink-500 transition-all group"
@@ -112,7 +112,7 @@ const Footer = () => {
                     rel="noopener noreferrer"
                     className="hover:text-orange-500 transition-colors cursor-pointer"
                   >
-                    Srinagar, Jammu & Kashmir, India
+                   HMT,Srinagar, Jammu & Kashmir, India
                   </a>
                 </div>
               </li>
@@ -158,7 +158,7 @@ const Footer = () => {
                 <span className="text-orange-500 mt-1">⏰</span>
                 <div>
                   <p className="text-white font-semibold text-sm mb-1">Operating Hours</p>
-                  <p>Mon - Sun: 6:00 AM - 11:00 PM</p>
+                  <p>Mon - Sun: 6:00 AM - 12:00 PM</p>
                 </div>
               </li>
             </ul>
