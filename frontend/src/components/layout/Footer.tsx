@@ -77,15 +77,25 @@ const Footer = () => {
                 <span className="text-orange-500 mt-1">📍</span>
                 <div>
                   <p className="text-white font-semibold text-sm mb-1">Location</p>
-                  <p>Srinagar, Jammu & Kashmir, India</p>
+                  <a 
+                    href="https://maps.app.goo.gl/KEPj6GFJEwwQDs3s8" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="hover:text-orange-500 transition-colors cursor-pointer"
+                  >
+                    Srinagar, Jammu & Kashmir, India
+                  </a>
                 </div>
               </li>
               <li className="flex items-start gap-3 text-gray-400">
                 <span className="text-orange-500 mt-1">📞</span>
                 <div>
                   <p className="text-white font-semibold text-sm mb-1">Phone</p>
-                  <a href="tel:+919876543210" className="hover:text-orange-500 transition-colors">
-                    +91 98765 43210
+                  <a 
+                    href="tel:+916006201616" 
+                    className="hover:text-orange-500 transition-colors cursor-pointer"
+                  >
+                    +91 6006201616
                   </a>
                 </div>
               </li>
@@ -93,8 +103,11 @@ const Footer = () => {
                 <span className="text-orange-500 mt-1">📧</span>
                 <div>
                   <p className="text-white font-semibold text-sm mb-1">Email</p>
-                  <a href="mailto:info@darsboxarena.com" className="hover:text-orange-500 transition-colors">
-                    info@darsboxarena.com
+                  <a 
+                    href="mailto:dbakashmir@gmail.com" 
+                    className="hover:text-orange-500 transition-colors cursor-pointer"
+                  >
+                    dbakashmir@gmail.com
                   </a>
                 </div>
               </li>
